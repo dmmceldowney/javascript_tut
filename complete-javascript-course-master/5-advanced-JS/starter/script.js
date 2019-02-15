@@ -115,6 +115,18 @@ c) correct answer (I would use a number for this)
 
 7. Suppose this code would be a plugin for other programmers to use in their code. So make sure that all your code is private and doesn't interfere with the other programmers code (Hint: we learned a special technique to do exactly that).
 */
+/*
+--- Expert level ---
+
+8. After you display the result, display the next random question, so that the game never ends (Hint: write a function for this and call it right after displaying the result)
+
+9. Be careful: after Task 8, the game literally never ends. So include the option to quit the game if the user writes 'exit' instead of the answer. In this case, DON'T call the function from task 8.
+
+10. Track the user's score to make the game more fun! So each time an answer is correct, add 1 point to the score (Hint: I'm going to use the power of closures for this, but you don't have to, just do this with the tools you feel more comfortable at this point).
+
+11. Display the score in the console. Use yet another method for this.
+*/
+
 
 
 function getRandom(val){
@@ -122,7 +134,23 @@ function getRandom(val){
 }
 
 
-function Question(q, a, c){
+function Player(){
+    this.score = 0;
+
+    this.increaseScore = function(){
+        this.score++;
+    };
+    this.decreaseScore = function(){
+        this.score-=1;
+    };
+    this.logScore = function(){
+        console.log('Score: ' + this.score);
+    };
+
+}
+
+
+function Question(q, a, c, player1){
     this.question = q;
     this.answers = a;
     this.correct_index = c;
@@ -141,18 +169,21 @@ function Question(q, a, c){
         console.log('Your answer: ' + this.answers[x] + '.');
         if (x == this.correct_index){
             console.log('Correct!')
+            player1.increaseScore();
         } else {
             console.log('Wrongo!');
+            player1.decreaseScore();
         }
+        console.log(player1.logScore());
         return 0;
     }
-};
+}
 
-function askQuestions(){
+function askQuestions(player1){
     var questions = [];
-    questions.push(new Question('What is the best music genre?', ['metal', 'jazz', 'opera', 'polka'], 3));
-    questions.push(new Question('Is World of Warcraft good?', ['no','yes'], 0));
-    questions.push(new Question('What is your name?', ['Yngwie', 'David', 'Jim', 'Cosmo'], 1));
+    questions.push(new Question('What is the best music genre?', ['metal', 'jazz', 'opera', 'polka'], 3, player1));
+    questions.push(new Question('Is World of Warcraft good?', ['no','yes'], 0, player1));
+    questions.push(new Question('What is your name?', ['Yngwie', 'David', 'Jim', 'Cosmo'], 1, player1));
 
 
     var chosenQuestion = questions[getRandom(3)];
@@ -163,22 +194,12 @@ function askQuestions(){
     return answer_result;
 }
 
+
+var player1 = new Player();
+
 do{
-    answer_result = askQuestions();
+    answer_result = askQuestions(player1);
 } while (answer_result === 0);
 
 
 
-
-
-/*
---- Expert level ---
-
-8. After you display the result, display the next random question, so that the game never ends (Hint: write a function for this and call it right after displaying the result)
-
-9. Be careful: after Task 8, the game literally never ends. So include the option to quit the game if the user writes 'exit' instead of the answer. In this case, DON'T call the function from task 8.
-
-10. Track the user's score to make the game more fun! So each time an answer is correct, add 1 point to the score (Hint: I'm going to use the power of closures for this, but you don't have to, just do this with the tools you feel more comfortable at this point).
-
-11. Display the score in the console. Use yet another method for this.
-*/
