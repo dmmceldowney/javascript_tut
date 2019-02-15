@@ -117,29 +117,55 @@ c) correct answer (I would use a number for this)
 */
 
 
+function getRandom(val){
+    return Math.floor(Math.random() * Math.floor(val));
+}
 
-var Question = function(question, answers, correct_index){
+
+function Question(q, a, c){
     this.question = q;
-    this.answers = as;
-    this.correct_index = correct_index;
+    this.answers = a;
+    this.correct_index = c;
+
+    this.logQuestion = function(){
+        console.log(this.question);
+        for (var i = 0; i < this.answers.length; i++){
+            console.log(i + ': ' + this.answers[i]);
+        }
+    };
+
+    this.checkAnswer = function(x){
+        if (x === 'exit'){
+            return 1;
+        }
+        console.log('Your answer: ' + this.answers[x] + '.');
+        if (x == this.correct_index){
+            console.log('Correct!')
+        } else {
+            console.log('Wrongo!');
+        }
+        return 0;
+    }
 };
 
-var questions = [];
-questions.push(new Question('What is the best music genre?', ['metal', 'jazz', 'opera', 'polka'], 3));
-questions.push(new Question('Is World of Warcraft good?', ['no','yes'], 0));
-questions.push(new Question('What is your name?', ['Yngwie', 'David', 'Jim', 'Cosmo'], 1));
+function askQuestions(){
+    var questions = [];
+    questions.push(new Question('What is the best music genre?', ['metal', 'jazz', 'opera', 'polka'], 3));
+    questions.push(new Question('Is World of Warcraft good?', ['no','yes'], 0));
+    questions.push(new Question('What is your name?', ['Yngwie', 'David', 'Jim', 'Cosmo'], 1));
 
 
+    var chosenQuestion = questions[getRandom(3)];
+    chosenQuestion.logQuestion();   
 
+    answer_result = chosenQuestion.checkAnswer(prompt('Please enter an answer.'));
 
+    return answer_result;
+}
 
-
-
-
-
-
-
-
+do{
+    answer_result = askQuestions();
+} while (answer_result === 0);
 
 
 
