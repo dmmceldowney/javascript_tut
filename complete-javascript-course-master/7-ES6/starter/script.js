@@ -143,7 +143,7 @@ console.log(ages6);
 
 //////////////////////////////////////////////////////////////////////////
 // Lecture: Arrow Functions 2
-
+/*
 // ES5
 var box5 = {
     color: 'green',
@@ -164,13 +164,159 @@ const box6 = {
     color: 'green',
     position: 1,
     clickMe: function(){
+
         document.querySelector('.green').addEventListener('click', () => {
             var str = 'This box number is ' + this.position + '. And it is ' + this.color + '.';
             alert(str);
         });
     },
 }
-box5.clickMe();
+box6.clickMe();
+
+
+/*
+const box66 = {
+    color: 'green',
+    position: 1,
+    clickMe: () => {        // "this." means the window object.
+        document.querySelector('.green').addEventListener('click', () => {
+            var str = 'This box number is ' + this.position + '. And it is ' + this.color + '.';
+            alert(str);
+        });
+    },
+}
+// box66.clickMe(); 
+
+
+function Person(name){
+    this.name = name;
+}
+
+Person.prototype.myFriends5 = function(friends){
+    // this points to Person (John)
+    var arr = friends.map(function(el){
+        // "this." points to the window
+        return this.name + ' is friends with ' + el + '.';
+    }.bind(this));
+
+    console.log(arr);
+};
+
+var friends = ['Bob', 'Jane', 'Mark'];
+//new Person('John').myFriends5(friends);
+
+// ES6
+Person.prototype.myFriends6 = function(friends){
+    // this points to Person (John)
+    var arr = friends.map(el => `${this.name} is friends with ${el}.`);
+    console.log(arr);
+};
+
+new Person('Mike').myFriends6(friends);
+*/
+
+
+//////////////////////////////////////////////////////////////////////////
+// Lecture: Destructuring
+/*
+// ES5
+var john = ['John', 26];
+//var name = john[0];
+//var age = john[1];
+
+// ES6
+// const [name, age] = ['John', 26];
+// console.log(name);
+// console.log(age);
+
+const obj = {
+    firstName: 'John',
+    lastName: 'Smith'
+};
+
+const {
+    firstName, lastName // Must match the keys above
+} = obj;
+// console.log(firstName);
+// console.log(lastName);
+
+const {firstName: a, lastName: b} = obj;
+
+// console.log(a);
+// console.log(b);
+
+
+function calcAgeRetirement(year){
+    const age = new Date().getFullYear() - year;
+    return [age, 65 - age];
+};
+
+const [age, retirement] = calcAgeRetirement(1990);
+console.log(age);
+console.log(retirement);
+*/
+
+/////////////////////////////////////////////////////////////////////////
+// Lecture: Arrays
+
+const boxes = document.querySelectorAll('.box');
+
+// ES5
+/*
+var boxesArr5 = Array.prototype.slice.call(boxes);
+
+boxesArr5.forEach(function(cur){
+    cur.style.backgroundColor = 'dodgerblue';
+});
+*/
+
+// ES6
+/*
+const boxesArr6 = Array.from(boxes).forEach(cur => cur.style.backgroundColor = 'dodgerblue');
+*/
+
+const boxesArr6 = Array.from(boxes);
+
+
+// ES5
+/*
+for (var i = 0; i < boxesArr5.length; i++){
+    if (boxesArr5[i].className === 'box blue'){
+        continue;
+    }
+    boxesArr5[i].textContent = 'I changed to Blue!';
+}
+*/
+
+// ES6 - "for of" loops
+for (const cur of boxesArr6){ // This is like the python for in loop
+    if (cur.className.includes('blue')){
+        continue;
+    }
+    cur.style.backgroundColor = 'dodgerblue';
+    cur.textContent = 'I changed to Blue!';
+}
+
+// ES5 
+var ages = [12, 17, 8, 21, 14, 11];
+
+var full = ages.map(function(cur){
+    return cur >= 18;
+});
+//console.log(full);
+
+//console.log(full.indexOf(true));
+//console.log(ages[full.indexOf(true)]);
+
+
+// ES6 - find index method
+console.log(ages.findIndex(cur => cur >= 18));
+console.log(ages.find(cur => cur >= 18));
+
+
+
+
+
 
 
 
