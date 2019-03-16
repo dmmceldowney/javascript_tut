@@ -11,6 +11,15 @@ export const clearResults = () => {
     elements.searchResultPages.innerHTML = '';
 };
 
+export const highlightSelected = (id) => {
+    const resultsArray = Array.from(document.querySelectorAll('.results__link'));
+    resultsArray.forEach(el => {
+        elements.classList.remove('results__link--active');
+    })
+
+    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+};
+
 // Pasta with Tomato and Spinach
 const limitRecipeTitle = (title, limit = 17) => {
     const newTitle = [];
